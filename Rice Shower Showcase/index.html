@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Rice Shower — Character Showcase | Uma Musume Pretty Derby">
+  <title>Rice Shower ✦ Uma Musume</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Cursor Glow -->
+  <div class="cursor-glow" id="cursorGlow"></div>
+
+  <!-- Particle Canvas -->
+  <canvas class="particles-canvas" id="particlesCanvas"></canvas>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-logo">
+      <span class="logo-mark">✦</span>
+      <span class="logo-text">Rice Shower</span>
+    </div>
+
+    <ul class="nav-links">
+      <li><a href="#hero"    class="nav-link" data-label="Home">Home</a></li>
+      <li><a href="#profile" class="nav-link" data-label="Profile">Profile</a></li>
+      <li><a href="#stats"   class="nav-link" data-label="Stats">Stats</a></li>
+      <li><a href="#story"   class="nav-link" data-label="Story">Story</a></li>
+      <li><a href="#gallery" class="nav-link" data-label="Gallery">Gallery</a></li>
+    </ul>
+
+    <div class="nav-actions">
+      <button class="nav-btn" id="musicToggle" title="Toggle BGM" aria-label="Music Toggle">
+        <span class="music-off">♪</span>
+        <span class="music-on" style="display:none;">♫</span>
+      </button>
+      <button class="nav-btn bloom-btn" id="nightBloomToggle" title="Night Bloom Mode" aria-label="Night Bloom">
+        ✦
+      </button>
+    </div>
+
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu" id="mobileMenu">
+    <ul>
+      <li><a href="#hero"    class="mobile-nav-link">Home</a></li>
+      <li><a href="#profile" class="mobile-nav-link">Profile</a></li>
+      <li><a href="#stats"   class="mobile-nav-link">Stats</a></li>
+      <li><a href="#story"   class="mobile-nav-link">Story</a></li>
+      <li><a href="#gallery" class="mobile-nav-link">Gallery</a></li>
+    </ul>
+  </div>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero" id="hero">
+    <div class="hero-bg" id="heroBg">
+      <!-- Place /assets/images/hero-bg.jpg here -->
+    </div>
+    <div class="hero-overlay"></div>
+    <div class="hero-scan"></div>
+
+    <div class="hero-content">
+      <p class="hero-label">Uma Musume Pretty Derby</p>
+      <h1 class="hero-title">
+        <span class="hero-kanji" id="heroKanji">ライスシャワー</span>
+        <span class="hero-roman">Rice Shower</span>
+      </h1>
+      <p class="hero-sub">
+        <span class="type-text" id="typeText"></span><span class="type-cursor">|</span>
+      </p>
+      <div class="hero-cta">
+        <a href="#profile" class="cta-primary">
+          <span>Explore</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12,5 19,12 12,19"/></svg>
+        </a>
+        <a href="#story" class="cta-secondary">Her Story</a>
+      </div>
+    </div>
+
+    <div class="hero-scroll">
+      <div class="scroll-track"><div class="scroll-dot"></div></div>
+      <span>Scroll</span>
+    </div>
+
+    <!-- Decorative corner marks -->
+    <div class="corner-mark corner-tl">✦</div>
+    <div class="corner-mark corner-tr">✦</div>
+    <div class="corner-mark corner-bl">✦</div>
+    <div class="corner-mark corner-br">✦</div>
+  </section>
+
+  <!-- ===== PROFILE ===== -->
+  <section class="section" id="profile">
+    <div class="container">
+      <div class="sec-header reveal">
+        <span class="sec-eyebrow">Character</span>
+        <h2 class="sec-title">Profile</h2>
+        <div class="sec-rule"></div>
+      </div>
+
+      <div class="profile-layout">
+        <!-- Image Column -->
+        <div class="profile-portrait reveal-left">
+          <div class="portrait-wrap">
+            <div class="portrait-img" id="portraitImg">
+              <!-- Place /assets/images/profile.png -->
+              <div class="portrait-fallback">
+                <div class="silhouette-ring"></div>
+                <div class="silhouette-body">
+                  <div class="sil-head"></div>
+                  <div class="sil-torso"></div>
+                </div>
+                <span class="portrait-initials">R.S</span>
+              </div>
+            </div>
+            <div class="portrait-glow"></div>
+            <div class="portrait-border"></div>
+          </div>
+        </div>
+
+        <!-- Info Column -->
+        <div class="profile-info reveal-right">
+          <div class="glass-card tilt-card">
+            <div class="card-stripe"></div>
+
+            <div class="profile-name-block">
+              <h3 class="p-name">Rice Shower</h3>
+              <span class="p-name-jp">ライスシャワー</span>
+            </div>
+
+            <div class="p-grid">
+              <div class="p-cell">
+                <span class="p-label">Birthday</span>
+                <span class="p-val">March 5th</span>
+              </div>
+              <div class="p-cell">
+                <span class="p-label">Height</span>
+                <span class="p-val">154 cm</span>
+              </div>
+              <div class="p-cell">
+                <span class="p-label">Weight</span>
+                <span class="p-val">41 kg</span>
+              </div>
+              <div class="p-cell">
+                <span class="p-label">Team</span>
+                <span class="p-val">Rigil</span>
+              </div>
+              <div class="p-cell p-cell-wide">
+                <span class="p-label">Voice Actor</span>
+                <span class="p-val">石見舞菜香 · Manaka Iwami</span>
+              </div>
+              <div class="p-cell">
+                <span class="p-label">Distance</span>
+                <span class="p-val">Long Distance</span>
+              </div>
+              <div class="p-cell">
+                <span class="p-label">Condition</span>
+                <span class="p-val">Pace Chaser</span>
+              </div>
+            </div>
+
+            <div class="p-trait">
+              <span class="p-label">Personality</span>
+              <p class="p-trait-text">Gentle and introspective, she carries a quiet storm within. Despite her shy nature, Rice Shower races with unyielding will — bearing the label of "villain" with silent grace, finding her truth on the track where no words are needed.</p>
+            </div>
+
+            <div class="p-tags">
+              <span class="tag">Shy</span>
+              <span class="tag">Determined</span>
+              <span class="tag">Elegant</span>
+              <span class="tag">Tragic Hero</span>
+              <span class="tag">Long-Distance</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== STATS ===== -->
+  <section class="section stats-section" id="stats">
+    <div class="container">
+      <div class="sec-header reveal">
+        <span class="sec-eyebrow">Abilities</span>
+        <h2 class="sec-title">Race Statistics</h2>
+        <div class="sec-rule"></div>
+      </div>
+
+      <div class="stats-grid">
+
+        <div class="stat-card glass-card tilt-card reveal" data-anim-delay="0">
+          <div class="stat-top">
+            <span class="stat-icon">⚡</span>
+            <span class="stat-label">Speed</span>
+            <span class="stat-num" data-target="95">0</span>
+          </div>
+          <div class="stat-track">
+            <div class="stat-fill" data-val="95" style="--clr: #c77dff;"></div>
+          </div>
+          <div class="stat-grade">S</div>
+        </div>
+
+        <div class="stat-card glass-card tilt-card reveal" data-anim-delay="80">
+          <div class="stat-top">
+            <span class="stat-icon">♥</span>
+            <span class="stat-label">Stamina</span>
+            <span class="stat-num" data-target="87">0</span>
+          </div>
+          <div class="stat-track">
+            <div class="stat-fill" data-val="87" style="--clr: #9b59b6;"></div>
+          </div>
+          <div class="stat-grade">A+</div>
+        </div>
+
+        <div class="stat-card glass-card tilt-card reveal" data-anim-delay="160">
+          <div class="stat-top">
+            <span class="stat-icon">⚔</span>
+            <span class="stat-label">Power</span>
+            <span class="stat-num" data-target="72">0</span>
+          </div>
+          <div class="stat-track">
+            <div class="stat-fill" data-val="72" style="--clr: #7b2d8b;"></div>
+          </div>
+          <div class="stat-grade">A</div>
+        </div>
+
+        <div class="stat-card glass-card tilt-card reveal" data-anim-delay="240">
+          <div class="stat-top">
+            <span class="stat-icon">✦</span>
+            <span class="stat-label">Guts</span>
+            <span class="stat-num" data-target="90">0</span>
+          </div>
+          <div class="stat-track">
+            <div class="stat-fill" data-val="90" style="--clr: #e0aaff;"></div>
+          </div>
+          <div class="stat-grade">S</div>
+        </div>
+
+        <div class="stat-card glass-card tilt-card reveal" data-anim-delay="320">
+          <div class="stat-top">
+            <span class="stat-icon">◈</span>
+            <span class="stat-label">Wisdom</span>
+            <span class="stat-num" data-target="85">0</span>
+          </div>
+          <div class="stat-track">
+            <div class="stat-fill" data-val="85" style="--clr: #6a0dad;"></div>
+          </div>
+          <div class="stat-grade">A+</div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== STORY ===== -->
+  <section class="section story-section" id="story">
+    <div class="container">
+      <div class="sec-header reveal">
+        <span class="sec-eyebrow">Background</span>
+        <h2 class="sec-title">Her Story</h2>
+        <div class="sec-rule"></div>
+      </div>
+
+      <div class="story-grid">
+
+        <div class="story-block reveal" data-anim-delay="0">
+          <div class="story-num">01</div>
+          <div class="story-body">
+            <h3 class="story-ch">The Shy Phantom</h3>
+            <p class="story-p">Rice Shower moves through the world like fog — barely there, yet impossible to forget. With eyes that carry the weight of a thousand unspoken prayers, she is a girl of stillness. But step onto the track, and the phantom stirs. Something ancient and relentless rises from beneath the quiet surface.</p>
+          </div>
+        </div>
+
+        <div class="story-block reveal" data-anim-delay="100">
+          <div class="story-num">02</div>
+          <div class="story-body">
+            <h3 class="story-ch">Bringer of Misfortune</h3>
+            <p class="story-p">When she defeated the beloved Mihono Bourbon at the Kikuka Sho, the crowd turned cold. They called her a villain — a dark horse who stole dreams. Yet she did not run to be loved. She ran because the track asked her to, and turning away from that call was something she simply could not do.</p>
+          </div>
+        </div>
+
+        <div class="story-block reveal" data-anim-delay="200">
+          <div class="story-num">03</div>
+          <div class="story-body">
+            <h3 class="story-ch">The Spring Tiara</h3>
+            <p class="story-p">The Tenno Sho (Spring) changed everything. She crossed the finish line first — and this time, the silence that followed was different. Not cold, but reverent. The crowd had finally seen what was always there: a girl who ran not against them, but alongside their very longing for something pure and true.</p>
+          </div>
+        </div>
+
+        <div class="story-block reveal" data-anim-delay="300">
+          <div class="story-num">04</div>
+          <div class="story-body">
+            <h3 class="story-ch">A Legacy of Rain</h3>
+            <p class="story-p">Rice — a blessing poured from the sky. Her name holds that paradox: something that falls like sorrow but feeds like grace. Like rain that darkens the sky before nourishing the earth, her path was shadowed by misunderstanding. But the dark flower did not wilt. It bloomed eternal, for those who learned to look.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== GALLERY ===== -->
+  <section class="section gallery-section" id="gallery">
+    <div class="container">
+      <div class="sec-header reveal">
+        <span class="sec-eyebrow">Visual</span>
+        <h2 class="sec-title">Gallery</h2>
+        <div class="sec-rule"></div>
+        <p class="gallery-hint">Add images to <code>/assets/images/gallery-1.jpg</code> through <code>gallery-6.jpg</code></p>
+      </div>
+
+      <div class="gallery-grid">
+
+        <div class="g-item reveal" data-anim-delay="0">
+          <div class="g-img" style="background-image:url('assets/images/gallery-1.jpg');">
+            <div class="g-placeholder"><span>I</span></div>
+          </div>
+          <div class="g-veil"><span>Racing Spirit</span></div>
+        </div>
+
+        <div class="g-item g-tall reveal" data-anim-delay="60">
+          <div class="g-img" style="background-image:url('assets/images/gallery-2.jpg');">
+            <div class="g-placeholder"><span>II</span></div>
+          </div>
+          <div class="g-veil"><span>The Phantom</span></div>
+        </div>
+
+        <div class="g-item reveal" data-anim-delay="120">
+          <div class="g-img" style="background-image:url('assets/images/gallery-3.jpg');">
+            <div class="g-placeholder"><span>III</span></div>
+          </div>
+          <div class="g-veil"><span>Quiet Storm</span></div>
+        </div>
+
+        <div class="g-item g-wide reveal" data-anim-delay="180">
+          <div class="g-img" style="background-image:url('assets/images/gallery-4.jpg');">
+            <div class="g-placeholder"><span>IV</span></div>
+          </div>
+          <div class="g-veil"><span>Night Race</span></div>
+        </div>
+
+        <div class="g-item reveal" data-anim-delay="240">
+          <div class="g-img" style="background-image:url('assets/images/gallery-5.jpg');">
+            <div class="g-placeholder"><span>V</span></div>
+          </div>
+          <div class="g-veil"><span>Under the Rain</span></div>
+        </div>
+
+        <div class="g-item reveal" data-anim-delay="300">
+          <div class="g-img" style="background-image:url('assets/images/gallery-6.jpg');">
+            <div class="g-placeholder"><span>VI</span></div>
+          </div>
+          <div class="g-veil"><span>The Dark Horse</span></div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Audio -->
+  <audio id="bgm" loop preload="none">
+    <source src="assets/audio/bgm.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-emblem">✦</div>
+      <p class="footer-name">Rice Shower</p>
+      <p class="footer-jp">ライスシャワー</p>
+      <div class="footer-sep"></div>
+      <p class="footer-credit">Uma Musume Pretty Derby © Cygames, Inc.</p>
+      <p class="footer-note">Fan Character Showcase · Personal / Non-Commercial Use Only<br>All characters and materials belong to their respective owners.</p>
+    </div>
+  </footer>
+
+  <script src="js/script.js"></script>
+</body>
+</html>
