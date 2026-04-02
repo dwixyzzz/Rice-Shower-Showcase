@@ -9,8 +9,10 @@
 </head>
 <body>
 
-  <!-- Cursor Glow -->
+  <!-- Cursor Elements -->
   <div class="cursor-glow" id="cursorGlow"></div>
+  <div class="cursor-ring"  id="cursorRing"></div>
+  <div class="cursor-dot"   id="cursorDot"></div>
 
   <!-- Particle Canvas -->
   <canvas class="particles-canvas" id="particlesCanvas"></canvas>
@@ -110,8 +112,17 @@
         <div class="profile-portrait reveal-left">
           <div class="portrait-wrap">
             <div class="portrait-img" id="portraitImg">
-              <!-- Place /assets/images/profile.png -->
-              <div class="portrait-fallback">
+              <!-- Actual image — shown when file exists -->
+              <img
+                src="assets/images/profile.png"
+                alt="Rice Shower"
+                class="portrait-photo"
+                id="portraitPhoto"
+                onload="this.classList.add('loaded'); document.getElementById('portraitFallback').style.display='none';"
+                onerror="this.style.display='none';"
+              >
+              <!-- Fallback shown only when image is missing -->
+              <div class="portrait-fallback" id="portraitFallback">
                 <div class="silhouette-ring"></div>
                 <div class="silhouette-body">
                   <div class="sil-head"></div>
@@ -271,7 +282,8 @@
 
       <div class="story-grid">
 
-        <div class="story-block reveal" data-anim-delay="0">
+        <div class="story-block tilt-card reveal" data-anim-delay="0">
+          <div class="story-block-inner-bar"></div>
           <div class="story-num">01</div>
           <div class="story-body">
             <h3 class="story-ch">The Shy Phantom</h3>
@@ -279,7 +291,8 @@
           </div>
         </div>
 
-        <div class="story-block reveal" data-anim-delay="100">
+        <div class="story-block tilt-card reveal" data-anim-delay="100">
+          <div class="story-block-inner-bar"></div>
           <div class="story-num">02</div>
           <div class="story-body">
             <h3 class="story-ch">Bringer of Misfortune</h3>
@@ -287,7 +300,8 @@
           </div>
         </div>
 
-        <div class="story-block reveal" data-anim-delay="200">
+        <div class="story-block tilt-card reveal" data-anim-delay="200">
+          <div class="story-block-inner-bar"></div>
           <div class="story-num">03</div>
           <div class="story-body">
             <h3 class="story-ch">The Spring Tiara</h3>
@@ -295,7 +309,8 @@
           </div>
         </div>
 
-        <div class="story-block reveal" data-anim-delay="300">
+        <div class="story-block tilt-card reveal" data-anim-delay="300">
+          <div class="story-block-inner-bar"></div>
           <div class="story-num">04</div>
           <div class="story-body">
             <h3 class="story-ch">A Legacy of Rain</h3>
@@ -321,7 +336,10 @@
         <!-- Song Card 1 -->
         <div class="song-card glass-card tilt-card reveal" data-anim-delay="0">
           <div class="song-cover-wrap">
-            <div class="song-cover" style="background-image:url('assets/images/song-cover-1.jpg');">
+            <div class="song-cover">
+              <img src="assets/images/song-cover-1.jpg" alt="Song 1"
+                onload="this.classList.add('loaded'); this.parentElement.querySelector('.song-cover-ph').style.display='none';"
+                onerror="this.style.display='none';">
               <div class="song-cover-ph">♪</div>
             </div>
             <div class="song-cover-glow"></div>
@@ -340,7 +358,10 @@
         <!-- Song Card 2 -->
         <div class="song-card glass-card tilt-card reveal" data-anim-delay="120">
           <div class="song-cover-wrap">
-            <div class="song-cover" style="background-image:url('assets/images/song-cover-2.jpg');">
+            <div class="song-cover">
+              <img src="assets/images/song-cover-2.jpg" alt="Song 2"
+                onload="this.classList.add('loaded'); this.parentElement.querySelector('.song-cover-ph').style.display='none';"
+                onerror="this.style.display='none';">
               <div class="song-cover-ph">♪</div>
             </div>
             <div class="song-cover-glow"></div>
@@ -359,7 +380,10 @@
         <!-- Song Card 3 -->
         <div class="song-card glass-card tilt-card reveal" data-anim-delay="240">
           <div class="song-cover-wrap">
-            <div class="song-cover" style="background-image:url('assets/images/song-cover-3.jpg');">
+            <div class="song-cover">
+              <img src="assets/images/song-cover-3.jpg" alt="Song 3"
+                onload="this.classList.add('loaded'); this.parentElement.querySelector('.song-cover-ph').style.display='none';"
+                onerror="this.style.display='none';">
               <div class="song-cover-ph">♪</div>
             </div>
             <div class="song-cover-glow"></div>
@@ -392,42 +416,60 @@
       <div class="gallery-grid">
 
         <div class="g-item reveal" data-anim-delay="0">
-          <div class="g-img" style="background-image:url('assets/images/gallery-1.jpg');">
+          <div class="g-img">
+            <img src="assets/images/gallery-1.jpg" alt="Racing Spirit" class="g-photo"
+              onload="this.classList.add('loaded'); this.nextElementSibling.style.display='none';"
+              onerror="this.style.display='none';">
             <div class="g-placeholder"><span>I</span></div>
           </div>
           <div class="g-veil"><span>Racing Spirit</span></div>
         </div>
 
-        <div class="g-item g-tall reveal" data-anim-delay="60">
-          <div class="g-img" style="background-image:url('assets/images/gallery-2.jpg');">
+        <div class="g-item reveal" data-anim-delay="60">
+          <div class="g-img">
+            <img src="assets/images/gallery-2.jpg" alt="The Phantom" class="g-photo"
+              onload="this.classList.add('loaded'); this.nextElementSibling.style.display='none';"
+              onerror="this.style.display='none';">
             <div class="g-placeholder"><span>II</span></div>
           </div>
           <div class="g-veil"><span>The Phantom</span></div>
         </div>
 
         <div class="g-item reveal" data-anim-delay="120">
-          <div class="g-img" style="background-image:url('assets/images/gallery-3.jpg');">
+          <div class="g-img">
+            <img src="assets/images/gallery-3.jpg" alt="Quiet Storm" class="g-photo"
+              onload="this.classList.add('loaded'); this.nextElementSibling.style.display='none';"
+              onerror="this.style.display='none';">
             <div class="g-placeholder"><span>III</span></div>
           </div>
           <div class="g-veil"><span>Quiet Storm</span></div>
         </div>
 
-        <div class="g-item g-wide reveal" data-anim-delay="180">
-          <div class="g-img" style="background-image:url('assets/images/gallery-4.jpg');">
+        <div class="g-item reveal" data-anim-delay="180">
+          <div class="g-img">
+            <img src="assets/images/gallery-4.jpg" alt="Night Race" class="g-photo"
+              onload="this.classList.add('loaded'); this.nextElementSibling.style.display='none';"
+              onerror="this.style.display='none';">
             <div class="g-placeholder"><span>IV</span></div>
           </div>
           <div class="g-veil"><span>Night Race</span></div>
         </div>
 
         <div class="g-item reveal" data-anim-delay="240">
-          <div class="g-img" style="background-image:url('assets/images/gallery-5.jpg');">
+          <div class="g-img">
+            <img src="assets/images/gallery-5.jpg" alt="Under the Rain" class="g-photo"
+              onload="this.classList.add('loaded'); this.nextElementSibling.style.display='none';"
+              onerror="this.style.display='none';">
             <div class="g-placeholder"><span>V</span></div>
           </div>
           <div class="g-veil"><span>Under the Rain</span></div>
         </div>
 
         <div class="g-item reveal" data-anim-delay="300">
-          <div class="g-img" style="background-image:url('assets/images/gallery-6.jpg');">
+          <div class="g-img">
+            <img src="assets/images/gallery-6.jpg" alt="The Dark Horse" class="g-photo"
+              onload="this.classList.add('loaded'); this.nextElementSibling.style.display='none';"
+              onerror="this.style.display='none';">
             <div class="g-placeholder"><span>VI</span></div>
           </div>
           <div class="g-veil"><span>The Dark Horse</span></div>

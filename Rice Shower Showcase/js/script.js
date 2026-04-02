@@ -22,46 +22,64 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-/* ─── 1. Cursor Glow ─────────────────────────────────────── */
+/* ─── 1. Cursor (3-layer: dot + ring + glow) ─────────────── */
 function initCursorGlow() {
   const glow = document.getElementById('cursorGlow');
-  if (!glow) return;
+  const ring = document.getElementById('cursorRing');
+  const dot  = document.getElementById('cursorDot');
+  if (!dot) return;
 
   let mx = -300, my = -300;
-  let cx = -300, cy = -300;
-  let raf;
+  // Ring lags slightly behind
+  let rx = -300, ry = -300;
+  // Glow lags even more
+  let gx = -300, gy = -300;
 
   const lerp = (a, b, t) => a + (b - a) * t;
 
   function tick() {
-    cx = lerp(cx, mx, 0.12);
-    cy = lerp(cy, my, 0.12);
-    glow.style.left = cx + 'px';
-    glow.style.top  = cy + 'px';
-    raf = requestAnimationFrame(tick);
+    // Dot: snap directly to mouse (done via mousemove)
+    // Ring: lerp
+    rx = lerp(rx, mx, 0.14);
+    ry = lerp(ry, my, 0.14);
+    // Glow: even smoother
+    gx = lerp(gx, mx, 0.07);
+    gy = lerp(gy, my, 0.07);
+
+    if (ring) { ring.style.left = rx + 'px'; ring.style.top = ry + 'px'; }
+    if (glow)  { glow.style.left = gx + 'px'; glow.style.top = gy + 'px'; }
+
+    requestAnimationFrame(tick);
   }
 
   document.addEventListener('mousemove', e => {
-    mx = e.clientX;
-    my = e.clientY;
+    mx = e.clientX; my = e.clientY;
+    // Dot snaps instantly
+    if (dot) { dot.style.left = mx + 'px'; dot.style.top = my + 'px'; }
   });
 
-  document.addEventListener('mouseleave', () => {
-    mx = my = -300;
-  });
+  document.addEventListener('mouseleave', () => { mx = my = -300; });
+
+  // Click flash
+  document.addEventListener('mousedown', () => dot?.classList.add('clicking'));
+  document.addEventListener('mouseup',   () => dot?.classList.remove('clicking'));
 
   tick();
 
-  // Scale up on interactive elements
-  const hoverEls = document.querySelectorAll('a, button, .g-item, .stat-card, .story-block, .tilt-card');
+  // Hover: enlarge ring, dim dot
+  const hoverEls = document.querySelectorAll(
+    'a, button, .g-item, .stat-card, .story-block, .tilt-card, .song-card, .song-play-btn'
+  );
   hoverEls.forEach(el => {
     el.addEventListener('mouseenter', () => {
-      glow.style.transform = 'translate(-50%, -50%) scale(1.5)';
-      glow.style.opacity = '0.7';
+      ring?.classList.add('hovering');
+      dot?.classList.add('hovering');
+      if (glow) { glow.style.opacity = '0.7'; glow.style.transform = 'translate(-50%,-50%) scale(1.4)'; }
     });
     el.addEventListener('mouseleave', () => {
-      glow.style.transform = 'translate(-50%, -50%) scale(1)';
-      glow.style.opacity = '1';
+      ring?.classList.remove('hovering');
+      dot?.classList.remove('hovering');
+      if (glow) { glow.style.opacity = '1'; glow.style.transform = 'translate(-50%,-50%) scale(1)'; }
     });
   });
 }
@@ -534,10 +552,3 @@ function debounce(fn, ms) {
   let t;
   return (...args) => { clearTimeout(t); t = setTimeout(() => fn(...args), ms); };
 }
-
-// Add cursor:none to all interactive elements
-(function patchCursors() {
-  document.querySelectorAll('a, button, .g-item, .nav-btn, .cta-primary, .cta-secondary').forEach(el => {
-    el.style.cursor = 'none';
-  });
-})();
