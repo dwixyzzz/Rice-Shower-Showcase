@@ -7,6 +7,7 @@
 
 /* ─── Entry Point ────────────────────────────────────────── */
 document.addEventListener('DOMContentLoaded', () => {
+  initImageLoader();   // ← harus paling pertama
   initCursorGlow();
   initParticles();
   initNavbar();
@@ -22,7 +23,37 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-/* ─── 1. Cursor (3-layer: dot + ring + glow) ─────────────── */
+/* ─── 0. Image Loader (reliable: handles cached + slow) ─────── */
+function initImageLoader() {
+  // Select every <img> that needs a placeholder hidden on load
+  // Works for: gallery (.g-photo), portrait (#portraitPhoto), song covers
+  const imgs = document.querySelectorAll(
+    '.g-photo, #portraitPhoto, .song-cover img'
+  );
+
+  imgs.forEach(img => {
+    function revealImg() {
+      img.classList.add('loaded');
+      // Hide the placeholder sibling (always the next element after the img)
+      const placeholder = img.nextElementSibling;
+      if (placeholder) placeholder.style.display = 'none';
+    }
+
+    if (img.complete && img.naturalWidth > 0) {
+      // Already cached — fire immediately
+      revealImg();
+    } else {
+      img.addEventListener('load',  revealImg, { once: true });
+      img.addEventListener('error', () => {
+        // File not found — hide the broken img, keep placeholder
+        img.style.display = 'none';
+      }, { once: true });
+    }
+  });
+}
+
+
+
 function initCursorGlow() {
   const glow = document.getElementById('cursorGlow');
   const ring = document.getElementById('cursorRing');

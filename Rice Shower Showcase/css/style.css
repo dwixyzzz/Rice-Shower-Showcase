@@ -1236,6 +1236,7 @@ body.night-bloom .cursor-dot {
   justify-content: center;
   background: linear-gradient(135deg, var(--bg-surface) 0%, var(--bg-mid) 100%);
   transition: background 0.3s;
+  z-index: 0;  /* always behind g-photo (z-index:1) */
 }
 .g-item:hover .g-placeholder {
   background: linear-gradient(135deg, #1a0040 0%, #0d0025 100%);
