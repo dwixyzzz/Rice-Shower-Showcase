@@ -46,7 +46,7 @@
     }
 
     /* ── Reset ───────────────────────────────── */
-    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;cursor:none !important}
     html{scroll-behavior:smooth}
     body{
       background:var(--bg-void);
@@ -58,18 +58,50 @@
       align-items:center;
       justify-content:center;
       overflow-x:hidden;
-      cursor:none;
     }
     a{text-decoration:none;color:inherit}
 
-    /* ── Cursor ──────────────────────────────── */
+    /* ── Cursor (3 layer) ────────────────────── */
     .cursor-glow{
       position:fixed;width:280px;height:280px;border-radius:50%;
-      background:radial-gradient(circle,rgba(199,125,255,0.12) 0%,transparent 70%);
+      background:radial-gradient(circle,rgba(199,125,255,0.10) 0%,transparent 68%);
       pointer-events:none;transform:translate(-50%,-50%);
-      z-index:9999;mix-blend-mode:screen;
-      transition:left 0.08s,top 0.08s;
+      z-index:9997;mix-blend-mode:screen;will-change:left,top;
     }
+    body.night-bloom .cursor-glow{
+      background:radial-gradient(circle,rgba(255,0,204,0.14) 0%,rgba(0,255,255,0.05) 50%,transparent 70%);
+    }
+    .cursor-ring{
+      position:fixed;width:32px;height:32px;border-radius:50%;
+      border:1.5px solid rgba(199,125,255,0.65);
+      pointer-events:none;transform:translate(-50%,-50%);
+      z-index:9998;will-change:left,top;
+      box-shadow:0 0 8px rgba(199,125,255,0.25);
+      transition:width 0.25s,height 0.25s,border-color 0.25s;
+    }
+    body.night-bloom .cursor-ring{
+      border-color:rgba(255,0,204,0.7);
+      box-shadow:0 0 10px rgba(255,0,204,0.3);
+    }
+    .cursor-ring.hovering{
+      width:48px;height:48px;
+      border-color:var(--acc);
+      box-shadow:var(--glow-sm);
+    }
+    .cursor-dot{
+      position:fixed;width:5px;height:5px;border-radius:50%;
+      background:var(--acc-bright);
+      pointer-events:none;transform:translate(-50%,-50%);
+      z-index:9999;will-change:left,top;
+      box-shadow:0 0 6px var(--acc),0 0 12px rgba(199,125,255,0.4);
+      transition:width 0.2s,height 0.2s,opacity 0.2s;
+    }
+    body.night-bloom .cursor-dot{
+      background:#ff66ee;
+      box-shadow:0 0 8px #ff00cc,0 0 16px rgba(0,255,255,0.3);
+    }
+    .cursor-dot.hovering{width:7px;height:7px;opacity:0.7;}
+    .cursor-dot.clicking{transform:translate(-50%,-50%) scale(0.5);opacity:0.4;}
 
     /* ── Particles ───────────────────────────── */
     .particles-canvas{
@@ -374,6 +406,8 @@
 <body>
 
   <div class="cursor-glow" id="cursorGlow"></div>
+  <div class="cursor-ring"  id="cursorRing"></div>
+  <div class="cursor-dot"   id="cursorDot"></div>
   <canvas class="particles-canvas" id="particlesCanvas"></canvas>
   <div class="page-bg"></div>
 
@@ -572,22 +606,51 @@
     return `${m}:${sec}`;
   }
 
-  /* ── Cursor ──────────────────────────────────*/
+  /* ── Cursor (3-layer: dot + ring + glow) ────*/
   function initCursor() {
     const glow = document.getElementById('cursorGlow');
-    let mx = -300, my = -300, cx = -300, cy = -300;
-    const lerp = (a,b,t) => a + (b-a)*t;
+    const ring = document.getElementById('cursorRing');
+    const dot  = document.getElementById('cursorDot');
+
+    let mx=-300, my=-300;
+    let rx=-300, ry=-300;
+    let gx=-300, gy=-300;
+    const lerp = (a,b,t) => a+(b-a)*t;
+
     function tick() {
-      cx = lerp(cx, mx, 0.12); cy = lerp(cy, my, 0.12);
-      glow.style.left = cx+'px'; glow.style.top = cy+'px';
+      // Ring: slight lag
+      rx=lerp(rx,mx,0.14); ry=lerp(ry,my,0.14);
+      // Glow: even smoother
+      gx=lerp(gx,mx,0.07); gy=lerp(gy,my,0.07);
+
+      if(ring){ ring.style.left=rx+'px'; ring.style.top=ry+'px'; }
+      if(glow){ glow.style.left=gx+'px'; glow.style.top=gy+'px'; }
       requestAnimationFrame(tick);
     }
-    document.addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; });
+
+    document.addEventListener('mousemove', e => {
+      mx=e.clientX; my=e.clientY;
+      // Dot snaps instantly
+      if(dot){ dot.style.left=mx+'px'; dot.style.top=my+'px'; }
+    });
+    document.addEventListener('mouseleave', () => { mx=my=-300; });
+    document.addEventListener('mousedown', () => dot?.classList.add('clicking'));
+    document.addEventListener('mouseup',   () => dot?.classList.remove('clicking'));
+
     tick();
-    document.querySelectorAll('a,button').forEach(el => {
-      el.style.cursor = 'none';
-      el.addEventListener('mouseenter', () => { glow.style.transform='translate(-50%,-50%) scale(1.5)'; });
-      el.addEventListener('mouseleave', () => { glow.style.transform='translate(-50%,-50%) scale(1)'; });
+
+    // Hover effect on interactive elements
+    document.querySelectorAll('a, button, .progress-bar-wrap').forEach(el => {
+      el.addEventListener('mouseenter', () => {
+        ring?.classList.add('hovering');
+        dot?.classList.add('hovering');
+        if(glow){ glow.style.opacity='0.7'; glow.style.transform='translate(-50%,-50%) scale(1.4)'; }
+      });
+      el.addEventListener('mouseleave', () => {
+        ring?.classList.remove('hovering');
+        dot?.classList.remove('hovering');
+        if(glow){ glow.style.opacity='1'; glow.style.transform='translate(-50%,-50%) scale(1)'; }
+      });
     });
   }
 
